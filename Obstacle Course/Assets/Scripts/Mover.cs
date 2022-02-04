@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class Mover : MonoBehaviour
 {
-    public float xValue = 0;
-    public float yValue = 0;
-    public float zValue = 0;
-    public float step = 0.01f;
+    [SerializeField] float xValue = 0;
+
+    [SerializeField] float yValue = 0;
+
+    [SerializeField] float zValue = 0;
+
     void Start()
     {
     }
 
     void Update()
     {
-                transform.Translate(xValue,yValue,zValue);
-                yValue += step;
+        transform.Translate(xValue, yValue, zValue);
     }
 }
