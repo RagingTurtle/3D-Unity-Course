@@ -9,7 +9,7 @@ public class Mover : MonoBehaviour
     float yValue = 0;
 
     float zValue = 0;
-    [SerializeField] float step = 0.01f;
+    [SerializeField] float moveSpeed = 0.01f;
 
     void Start()
     {
@@ -17,8 +17,8 @@ public class Mover : MonoBehaviour
 
     void Update()
     {
-        xValue = Input.GetAxis("Horizontal") * step;
-        zValue = Input.GetAxis("Vertical") * step;
+        xValue = Input.GetAxis("Horizontal") * Time.deltaTime * moveSpeed;
+        zValue = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeed;
         transform.Translate(xValue, yValue, zValue);
     }
 }
