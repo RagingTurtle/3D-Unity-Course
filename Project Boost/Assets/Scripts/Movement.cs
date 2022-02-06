@@ -40,6 +40,9 @@ public class Movement : MonoBehaviour
 
     private void ApplyRotation(Vector3 direction)
     {
+        rigidbodyPlayer.freezeRotation = true;
         transform.Rotate(direction * rotationThrust * Time.deltaTime);
+        rigidbodyPlayer.freezeRotation = false;
+
     }
 }
