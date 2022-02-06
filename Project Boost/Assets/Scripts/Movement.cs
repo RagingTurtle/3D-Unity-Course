@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    // Start is called before the first frame update
+    Rigidbody rigidbodyPlayer;
     void Start()
     {
-
+        rigidbodyPlayer = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         ProcessThrust();
@@ -21,7 +20,7 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            Debug.Log("space");
+            rigidbodyPlayer.AddRelativeForce(Vector3.up);
         }
     }
 
