@@ -6,6 +6,7 @@ public class Movement : MonoBehaviour
 {
     Rigidbody rigidbodyPlayer;
     [SerializeField] float mainThrust = 100;
+    [SerializeField] float rotationThrust = 100;
     void Start()
     {
         rigidbodyPlayer = GetComponent<Rigidbody>();
@@ -25,15 +26,20 @@ public class Movement : MonoBehaviour
         }
     }
 
-    private static void ProcessRotation()
+    private void ProcessRotation()
     {
         if (Input.GetKey(KeyCode.A))
         {
-            Debug.Log("a");
+            ApplyRotation(Vector3.forward);
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            Debug.Log("d");
+            ApplyRotation(Vector3.back);
         }
+    }
+
+    private void ApplyRotation(Vector3 direction)
+    {
+        transform.Rotate(direction * rotationThrust * Time.deltaTime);
     }
 }
