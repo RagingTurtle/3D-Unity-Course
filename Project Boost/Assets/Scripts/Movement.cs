@@ -5,6 +5,7 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     Rigidbody rigidbodyPlayer;
+    [SerializeField] float mainThrust = 100;
     void Start()
     {
         rigidbodyPlayer = GetComponent<Rigidbody>();
@@ -20,7 +21,7 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            rigidbodyPlayer.AddRelativeForce(Vector3.up);
+            rigidbodyPlayer.AddRelativeForce(Vector3.up * mainThrust * Time.deltaTime);
         }
     }
 
