@@ -10,12 +10,16 @@ public class CollisionHandler : MonoBehaviour
     [SerializeField] float audioVolume = .5f;
 
     AudioSource audioSourcePlayer;
+
+    bool isLoading = false;
     private void Start()
     {
         audioSourcePlayer = GetComponent<AudioSource>();
     }
     private void OnCollisionEnter(Collision other)
     {
+        if (isLoading) { return; }
+
         switch (other.gameObject.tag)
         {
             case "Friendly":
@@ -34,13 +38,17 @@ public class CollisionHandler : MonoBehaviour
 
     private void SuccessSequence()
     {
+        isLoading = true;
         GetComponent<Movement>().enabled = false;
+        audioSourcePlayer.Stop();
         audioSourcePlayer.PlayOneShot(successAudio, audioVolume);
         Invoke("LoadNextLevel", invokeDelay);
     }
 
     void CrashSequence()
     {
+        isLoading = true;
+        audioSourcePlayer.Stop();
         audioSourcePlayer.PlayOneShot(crashAudio, audioVolume);
         GetComponent<Movement>().enabled = false;
         Invoke("ReloadLevel", invokeDelay);
