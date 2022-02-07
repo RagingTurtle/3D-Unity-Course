@@ -12,6 +12,7 @@ public class CollisionHandler : MonoBehaviour
                 break;
             case "Finish":
                 Debug.Log(other.gameObject.tag);
+                LoadNextLevel();
                 break;
             default:
                 Debug.Log("default: " + other.gameObject.tag);
@@ -22,7 +23,16 @@ public class CollisionHandler : MonoBehaviour
 
     private void ReloadLevel()
     {
-        string currentLevel = SceneManager.GetActiveScene().name;
+        int currentLevel = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentLevel);
+    }
+    void LoadNextLevel()
+    {
+        int currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
+        int nextLevelIndex = currentLevelIndex + 1;
+        if (SceneManager.sceneCountInBuildSettings == nextLevelIndex){
+            nextLevelIndex = 0;
+        }
+        SceneManager.LoadScene(nextLevelIndex);
     }
 }
