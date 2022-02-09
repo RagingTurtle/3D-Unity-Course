@@ -31,45 +31,68 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            rigidbodyPlayer.AddRelativeForce(Vector3.up * mainThrust * Time.deltaTime);
-            if (!audioSourcePlayer.isPlaying)
-            {
-                audioSourcePlayer.PlayOneShot(thrustAudio, audioVolume);
-            }
-            if (!mainThrustParticles.isPlaying)
-            {
-                mainThrustParticles.Play();
-            }
+            StartThruster();
         }
         else
         {
-            audioSourcePlayer.Stop();
-            mainThrustParticles.Stop();
+            StopThruster();
         }
+    }
+
+    private void StartThruster()
+    {
+        rigidbodyPlayer.AddRelativeForce(Vector3.up * mainThrust * Time.deltaTime);
+        if (!audioSourcePlayer.isPlaying)
+        {
+            audioSourcePlayer.PlayOneShot(thrustAudio, audioVolume);
+        }
+        if (!mainThrustParticles.isPlaying)
+        {
+            mainThrustParticles.Play();
+        }
+    }
+    private void StopThruster()
+    {
+        audioSourcePlayer.Stop();
+        mainThrustParticles.Stop();
     }
 
     private void ProcessRotation()
     {
         if (Input.GetKey(KeyCode.A))
         {
-            ApplyRotation(Vector3.forward);
-            if (!leftTurnThrustParticles.isPlaying)
-            {
-                leftTurnThrustParticles.Play();
-            }
+            TurnLeft();
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            ApplyRotation(Vector3.back); 
-            if (!rightTurnThrustParticles.isPlaying)
-            {
-                rightTurnThrustParticles.Play();
-            }
+            TurnRight();
         }
-        else {
-            leftTurnThrustParticles.Stop();
-            rightTurnThrustParticles.Stop();
+        else
+        {
+            StopTurnParticles();
         }
+    }
+
+    private void TurnLeft()
+    {
+        ApplyRotation(Vector3.forward);
+        if (!leftTurnThrustParticles.isPlaying)
+        {
+            leftTurnThrustParticles.Play();
+        }
+    }
+    private void TurnRight()
+    {
+        ApplyRotation(Vector3.back);
+        if (!rightTurnThrustParticles.isPlaying)
+        {
+            rightTurnThrustParticles.Play();
+        }
+    }
+    private void StopTurnParticles()
+    {
+        leftTurnThrustParticles.Stop();
+        rightTurnThrustParticles.Stop();
     }
 
     private void ApplyRotation(Vector3 direction)
@@ -77,6 +100,5 @@ public class Movement : MonoBehaviour
         rigidbodyPlayer.freezeRotation = true;
         transform.Rotate(direction * rotationThrust * Time.deltaTime);
         rigidbodyPlayer.freezeRotation = false;
-
     }
 }
