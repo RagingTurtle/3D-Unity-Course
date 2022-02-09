@@ -15,11 +15,31 @@ public class CollisionHandler : MonoBehaviour
     AudioSource audioSourcePlayer;
 
     bool isLoading = false;
-    private void Start()
+    bool isCrashOn = true;
+    void Start()
     {
         audioSourcePlayer = GetComponent<AudioSource>();
     }
-    private void OnCollisionEnter(Collision other)
+    void Update()
+    {
+        Cheat();
+    }
+    void Cheat()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            LoadNextLevel();
+        }
+        else if (Input.GetKeyDown(KeyCode.C))
+        {
+            ToggleCrash();
+        }
+    }
+    void ToggleCrash()
+    {
+        isCrashOn = !isCrashOn;
+    }
+    void OnCollisionEnter(Collision other)
     {
         if (isLoading) { return; }
 
@@ -31,12 +51,13 @@ public class CollisionHandler : MonoBehaviour
                 SuccessSequence();
                 break;
             default:
-                CrashSequence();
+                if (isCrashOn)
+                { CrashSequence(); }
                 break;
         }
     }
 
-    private void SuccessSequence()
+    void SuccessSequence()
     {
         isLoading = true;
         GetComponent<Movement>().enabled = false;
@@ -55,7 +76,7 @@ public class CollisionHandler : MonoBehaviour
         GetComponent<Movement>().enabled = false;
         Invoke("ReloadLevel", invokeDelay);
     }
-    private void ReloadLevel()
+    void ReloadLevel()
     {
         int currentLevel = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentLevel);
